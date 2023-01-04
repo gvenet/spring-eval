@@ -1,15 +1,11 @@
 package fr.formation.jpa.springdata;
 
-import fr.formation.jpa.springdata.entities.Address;
 import fr.formation.jpa.springdata.entities.Country;
 import fr.formation.jpa.springdata.entities.Customer;
 import fr.formation.jpa.springdata.entities.Order;
-import fr.formation.jpa.springdata.entities.TypeAddress;
-import fr.formation.jpa.springdata.repositories.AddressRepository;
 import fr.formation.jpa.springdata.repositories.CountryRepository;
 import fr.formation.jpa.springdata.repositories.CustomerRepository;
 import fr.formation.jpa.springdata.repositories.OrderRepository;
-import fr.formation.jpa.springdata.repositories.TypeAddressRepository;
 import org.junit.jupiter.api.Assertions;
 
 import java.text.SimpleDateFormat;
