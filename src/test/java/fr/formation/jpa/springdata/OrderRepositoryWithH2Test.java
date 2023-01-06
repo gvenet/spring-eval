@@ -1,11 +1,16 @@
 package fr.formation.jpa.springdata;
 
+import fr.formation.jpa.springdata.entities.Address;
+import fr.formation.jpa.springdata.entities.Articles;
 import fr.formation.jpa.springdata.entities.Country;
 import fr.formation.jpa.springdata.entities.Customer;
 import fr.formation.jpa.springdata.entities.Order;
+import fr.formation.jpa.springdata.repositories.AddressRepository;
+import fr.formation.jpa.springdata.repositories.ArticlesRepository;
 import fr.formation.jpa.springdata.repositories.CountryRepository;
 import fr.formation.jpa.springdata.repositories.CustomerRepository;
 import fr.formation.jpa.springdata.repositories.OrderRepository;
+import fr.formation.jpa.springdata.repositories.TypeAddressRepository;
 
 import org.junit.jupiter.api.Assertions;
 
@@ -57,6 +62,15 @@ public class OrderRepositoryWithH2Test {
 
     @Autowired
     private EntityManager entityManager;
+
+    @Autowired
+    private ArticlesRepository articlesRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
+    private TypeAddressRepository typeAddressRepository;
 
     @BeforeEach
     public void setup() {
@@ -119,7 +133,7 @@ public class OrderRepositoryWithH2Test {
         // Get filtered ordersFromDB
         final Date indexDate = createDate("02/01/2022");
         List<Order> ordersFromDB = (List<Order>) orderRepository
-                .findByDateOrderAfterOrderByDateOrderAsc(indexDate);
+                .findCustomByDateOrder(indexDate);
 
         // Orders list format for compare
         orders.removeIf(order -> order.getDateOrder().compareTo(indexDate) <= 0);
@@ -147,17 +161,17 @@ public class OrderRepositoryWithH2Test {
         final Date deliveryDate = createDate("01/02/2022");
         final Country france = countryRepository.findById("FR").get();
         final Country italie = countryRepository.findById("IT").get();
-        
+
         // Create customers
         final Customer martin = customerRepository.findById(1L).get();
         final Customer michel = new Customer(2L, "Toto", "Michel", italie);
-        customerRepository.saveAll(Arrays.asList(martin,michel));
+        customerRepository.saveAll(Arrays.asList(martin, michel));
 
         // Create and save orders
-        final Order order1 = new Order(ref1, martin, orderDate, deliveryDate,france);
+        final Order order1 = new Order(ref1, martin, orderDate, deliveryDate, france);
         final Order order2 = new Order(ref2, michel, orderDate, deliveryDate, italie);
         orderRepository.saveAll(Arrays.asList(order1, order2));
-        
+
         List<Order> ordersFromDB = orderRepository.findCustomOrder("Martin", "Pierre", france, 2022);
 
         List<String> toPrint = new ArrayList<String>();
@@ -168,7 +182,49 @@ public class OrderRepositoryWithH2Test {
         printDate(toPrint.toString(), order1.getDateDelivery());
 
         Assertions.assertEquals(ordersFromDB, Arrays.asList(order1));
-        
-         
+
+    }
+
+    @Test
+    public void shouldFindCustomByOrderReference() throws Exception {
+        // Save Articles
+        final Articles sugar = new Articles(1L, "Sucre",
+                "Le sucre est une substance de saveur douce extraite principalement de la canne à sucre ou de la betterave sucrière.",
+                1.39);
+        final Articles flour = new Articles(2L,
+                "farine",
+                "La farine est une poudre obtenue en broyant et en moulant des céréales ou d'autres produits agricoles alimentaires solides, souvent des graines.",
+                1.00);
+        final Articles confectionery = new Articles(3L,
+                "confiserie",
+                "Une confiserie est un produit à base de sucre qui est vendu dans un magasin du même nom et fabriqué par un confiseur.",
+                4.76);
+        articlesRepository.saveAll(Arrays.asList(sugar, flour, confectionery));
+
+        // Create Address
+        final Address deliveryAddress = new Address(1L, "rue de la livraison", "69000", "Lyon",
+                typeAddressRepository.findById(1L).get(), countryRepository.findById("FR").get());
+        final Address billingAddress = new Address(2L, "rue de la facturation", "69002", "Lyon",
+                typeAddressRepository.findById(2L).get(), countryRepository.findById("FR").get());
+        final Address otherAddress = new Address(3L, "rue de l'autre type", "69007", "Lyon",
+                typeAddressRepository.findById(3L).get(), countryRepository.findById("FR").get());
+        addressRepository.saveAll(Arrays.asList(deliveryAddress, billingAddress, otherAddress));
+
+        // Create orders
+        final Date orderDate = createDate("01/01/2022");
+        final Date deliveryDate = createDate("01/02/2022");
+        final String ref = "REF-123456";
+        Order order1 = new Order(ref, customerRepository.findById(1L).get(), orderDate, deliveryDate,
+                countryRepository.findById("FR").get());
+        order1.getAddresses().addAll(Arrays.asList(deliveryAddress, billingAddress, otherAddress));
+        order1.getArticles().addAll(Arrays.asList(sugar, flour, confectionery));
+        orderRepository.save(order1);
+
+        // Get CustomQuery
+        // List<Object[]> objects = orderRepository.findCustomByOrderReference(ref);
+
+        // Print CustomQuery
+        // objects.forEach(object -> printGreen(object[0].toString() + " " +
+        // object[1].toString()));
     }
 }

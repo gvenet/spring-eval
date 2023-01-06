@@ -13,13 +13,17 @@ import org.springframework.data.repository.CrudRepository;
 public interface OrderRepository extends CrudRepository<Order, Long> {
 	@Modifying
 	@Query("UPDATE Order o SET o.dateDelivery = ?1 WHERE o.reference = ?2")
-	int updateOrderDeliveryDate(Date dateDelivery,String reference);
+	int updateOrderDeliveryDate(Date dateDelivery, String reference);
 
 	Order findByReference(String reference);
 
-	List<Order> findByDateOrderAfterOrderByDateOrderAsc(Date date);
+	@Query("SELECT o FROM Order o WHERE o.dateOrder > ?1 ORDER BY o.dateOrder ASC")
+	List<Order> findCustomByDateOrder(Date date);
 
 	@Query("SELECT o FROM Order o WHERE o.customer.lastName = ?1 AND o.customer.firstName = ?2 AND o.country = ?3 AND YEAR(o.dateOrder) = ?4")
 	List<Order> findCustomOrder(String customerLastName, String customerFirstName, Country country, Integer year);
 
+	// @Query("SELECT o.customer, o.country FROM Order o WHERE o.reference = ?1 AND
+	// o.customer.address.typeAddress.id = 1")
+	// List<Object[]> findCustomByOrderReference(String ref);
 }

@@ -52,8 +52,10 @@ public class Order {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (this == o)
+            return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o))
+            return false;
         Order order = (Order) o;
         return id != null && Objects.equals(id, order.id);
     }
@@ -64,14 +66,14 @@ public class Order {
     }
 
     @ManyToMany
-    @JoinTable( name = "commande_adresses",
-                joinColumns = @JoinColumn( name = "id_commande" ),
-                inverseJoinColumns = @JoinColumn( name = "id_adresse" ) )
+    @JoinTable(name = "commande_adresses",
+            joinColumns = @JoinColumn(name = "id_commande"),
+            inverseJoinColumns = @JoinColumn(name = "id_adresse"))
     private Set<Address> addresses = new HashSet<Address>();
 
     @ManyToMany
-    @JoinTable( name = "commande_articles",
-                joinColumns = @JoinColumn( name = "id_commande" ),
-                inverseJoinColumns = @JoinColumn( name = "id_article" ) )
-    private Set<Address> articles = new HashSet<Address>();
+    @JoinTable(name = "commande_articles",
+            joinColumns = @JoinColumn(name = "id_commande"),
+            inverseJoinColumns = @JoinColumn(name = "id_article"))
+    private Set<Articles> articles = new HashSet<Articles>();
 }
