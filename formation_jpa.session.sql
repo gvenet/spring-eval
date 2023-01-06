@@ -1,7 +1,1 @@
-INSERT INTO articles (id_article, libelle, description, prix_HT)
-VALUES (
-		id_article:int,
-		'libelle:varchar',
-		'description:longtext',
-		'prix_HT:decimal'
-	);
+UPDATE commandes SET date_livraison = '2034-01-01 00:00:00.000' WHERE reference = "5164605";
