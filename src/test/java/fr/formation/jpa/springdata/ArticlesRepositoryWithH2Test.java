@@ -1,9 +1,7 @@
 package fr.formation.jpa.springdata;
 
 import fr.formation.jpa.springdata.entities.Articles;
-import fr.formation.jpa.springdata.entities.Country;
 import fr.formation.jpa.springdata.repositories.ArticlesRepository;
-import fr.formation.jpa.springdata.repositories.CountryRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,9 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.Arrays;
-import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
