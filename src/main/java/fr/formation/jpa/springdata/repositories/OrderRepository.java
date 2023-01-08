@@ -23,6 +23,6 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
 	@Query("SELECT o FROM Order o WHERE o.customer.lastName = ?1 AND o.customer.firstName = ?2 AND o.country = ?3 AND YEAR(o.dateOrder) = ?4")
 	List<Order> findCustomOrder(String customerLastName, String customerFirstName, Country country, Integer year);
 
-	@Query("SELECT a FROM Order o JOIN o.addresses a WHERE o.reference = ?1")
+	@Query("SELECT a FROM Order o JOIN o.addresses a WHERE o.reference = ?1 AND a.typeAddress.id = 1")
 	List<Object[]> findCustomOrderByReference(String ref);
 }

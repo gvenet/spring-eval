@@ -21,12 +21,12 @@ import javax.persistence.Table;
 @RequiredArgsConstructor
 public class Address {
 
-    public Address(Long id, String street, String postalCode, String city, TypeAddress typeAdress, Country country) {
+    public Address(Long id, String street, String postalCode, String city, TypeAddress typeAddress, Country country) {
         this.id = id;
         this.street = street;
         this.postalCode = postalCode;
         this.city = city;
-        this.typeAdress = typeAdress;
+        this.typeAddress = typeAddress;
         this.country = country;
     }
 
@@ -45,7 +45,7 @@ public class Address {
     
     @ManyToOne
     @JoinColumn(name = "fk_id_type_adresse")
-    private TypeAddress typeAdress;
+    private TypeAddress typeAddress;
 
     @ManyToOne
     @JoinColumn(name = "fk_id_pays")
