@@ -1,6 +1,5 @@
 package fr.formation.jpa.springdata.entities;
 
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -17,7 +16,6 @@ import javax.persistence.Table;
 @Table(name = "adresses")
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 public class Address {
 
@@ -42,7 +40,7 @@ public class Address {
 
     @Column(name = "ville")
     private String city;
-    
+
     @ManyToOne
     @JoinColumn(name = "fk_id_type_adresse")
     private TypeAddress typeAddress;
@@ -50,5 +48,11 @@ public class Address {
     @ManyToOne
     @JoinColumn(name = "fk_id_pays")
     private Country country;
+
+    @Override
+    public String toString() {
+        return this.typeAddress.getLabel() + " : " + this.street + " " + this.postalCode + " " + this.city + " "
+                + this.country.getId();
+    }
 
 }

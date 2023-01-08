@@ -21,7 +21,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 
@@ -195,11 +197,11 @@ public class OrderRepositoryWithH2Test {
                                 "Le sucre est une substance de saveur douce extraite principalement de la canne à sucre ou de la betterave sucrière.",
                                 1.39);
                 final Articles flour = new Articles(2L,
-                                "farine",
+                                "Farine",
                                 "La farine est une poudre obtenue en broyant et en moulant des céréales ou d'autres produits agricoles alimentaires solides, souvent des graines.",
                                 1.00);
                 final Articles confectionery = new Articles(3L,
-                                "confiserie",
+                                "Confiserie",
                                 "Une confiserie est un produit à base de sucre qui est vendu dans un magasin du même nom et fabriqué par un confiseur.",
                                 4.76);
                 articlesRepository.saveAll(Arrays.asList(sugar, flour, confectionery));
@@ -232,9 +234,18 @@ public class OrderRepositoryWithH2Test {
                 orderRepository.save(order1);
 
                 // Get CustomQuery
-                List<Object[]> objectList = orderRepository.findCustomOrderByReference(ref);
+                List<Object[]> objList = orderRepository.findCustomOrderByReference(ref);
+                Customer customer = (Customer) objList.get(0)[0];
+                Set<Articles> articles = new HashSet<Articles>();
+                objList.forEach(obj -> articles.add((Articles) obj[1]));
+                Set<Address> addresses = new HashSet<Address>();
+                objList.forEach(obj -> addresses.add((Address) obj[2]));
 
-                objectList.forEach(object -> print(object[0].toString()));
+                Order order = new Order(ref, customer, addresses, articles);
+                print(order.getReference().toString());
+                print(order.getCustomer().getFirstName() + " " + order.getCustomer().getLastName());
+                order.getArticles().forEach(article -> print(article.getLabel()));
+                order.getAddresses().forEach(address -> print(address.toString()));
 
         }
 }

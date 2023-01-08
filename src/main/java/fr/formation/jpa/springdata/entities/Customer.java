@@ -19,6 +19,11 @@ import java.util.Set;
 @ToString
 @RequiredArgsConstructor
 public class Customer {
+    public Customer(String lastName, String firstName) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+    }
+
     public Customer(Long id, String lastName, String firstName, Country country) {
         this.id = id;
         this.lastName = lastName;

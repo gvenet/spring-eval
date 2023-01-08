@@ -5,6 +5,7 @@ import fr.formation.jpa.springdata.entities.Order;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -23,6 +24,11 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
 	@Query("SELECT o FROM Order o WHERE o.customer.lastName = ?1 AND o.customer.firstName = ?2 AND o.country = ?3 AND YEAR(o.dateOrder) = ?4")
 	List<Order> findCustomOrder(String customerLastName, String customerFirstName, Country country, Integer year);
 
-	@Query("SELECT a FROM Order o JOIN o.addresses a WHERE o.reference = ?1 AND a.typeAddress.id = 1")
+	// lastName 
+	// firstName
+
+	@Query("SELECT c, o.articles, a FROM Order o JOIN o.addresses a JOIN o.customer c WHERE o.reference = ?1 AND a.typeAddress.id = 1")
 	List<Object[]> findCustomOrderByReference(String ref);
+	
+
 }

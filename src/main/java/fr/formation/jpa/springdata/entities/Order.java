@@ -20,6 +20,13 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class Order {
 
+    public Order(String reference, Customer customer, Set<Address> addresses, Set<Articles> articles) {
+        this.reference = reference;
+        this.customer = customer;
+        this.addresses = addresses;
+        this.articles = articles;
+    }
+
     public Order(String reference, Customer customer, Date dateOrder, Date dateDelivery, Country country) {
         this.reference = reference;
         this.customer = customer;
