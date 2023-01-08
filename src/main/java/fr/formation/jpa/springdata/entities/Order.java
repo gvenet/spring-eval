@@ -66,14 +66,11 @@ public class Order {
     }
 
     @ManyToMany
-    @JoinTable(name = "commande_adresses",
-            joinColumns = @JoinColumn(name = "id_commande"),
-            inverseJoinColumns = @JoinColumn(name = "id_adresse"))
+    @JoinTable(name = "commande_adresses", joinColumns = @JoinColumn(name = "id_commande"), inverseJoinColumns = @JoinColumn(name = "id_adresse"))
     private Set<Address> addresses = new HashSet<Address>();
 
     @ManyToMany
-    @JoinTable(name = "commande_articles",
-            joinColumns = @JoinColumn(name = "id_commande"),
-            inverseJoinColumns = @JoinColumn(name = "id_article"))
+    @JoinTable(name = "commande_articles", joinColumns = @JoinColumn(name = "id_commande"), inverseJoinColumns = @JoinColumn(name = "id_article"))
     private Set<Articles> articles = new HashSet<Articles>();
+
 }

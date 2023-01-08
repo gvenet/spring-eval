@@ -35,12 +35,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @DataJpaTest
 public class OrderRepositoryWithH2Test {
 
-    public static void printGreen(String input) {
+    public static void print(String input) {
         System.out.println("\u001B[32m" + input + "\u001B[0m");
     }
 
     public static void printDate(String label, Date date) {
-        printGreen(label + " : " + new SimpleDateFormat("dd/MM/yyyy").format(date));
+        print(label + " : " + new SimpleDateFormat("dd/MM/yyyy").format(date));
     }
 
     public static Date createDate(String date_string) throws ParseException {
@@ -221,10 +221,9 @@ public class OrderRepositoryWithH2Test {
         orderRepository.save(order1);
 
         // Get CustomQuery
-        // List<Object[]> objects = orderRepository.findCustomByOrderReference(ref);
+        List<Object[]> objectList = orderRepository.findCustomOrderByReference(ref);
 
-        // Print CustomQuery
-        // objects.forEach(object -> printGreen(object[0].toString() + " " +
-        // object[1].toString()));
+        objectList.forEach(object -> print(object[0].toString()));
+
     }
 }

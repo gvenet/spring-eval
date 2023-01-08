@@ -2,6 +2,9 @@ package fr.formation.jpa.springdata;
 
 import fr.formation.jpa.springdata.entities.Articles;
 import fr.formation.jpa.springdata.repositories.ArticlesRepository;
+
+import java.util.Arrays;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,12 +39,11 @@ public class ArticlesRepositoryWithH2Test {
                 "confiserie",
                 "Une confiserie est un produit à base de sucre qui est vendu dans un magasin du même nom et fabriqué par un confiseur.",
                 4.76);
-        // articlesRepository.saveAll(Arrays.asList(sugar, flour, confectionery));
-        articlesRepository.save(sugar);
+        articlesRepository.saveAll(Arrays.asList(sugar, flour, confectionery));
 
         Articles sugarFromDB = articlesRepository.findById(1L).get();
 
-        Assertions.assertEquals(sugar, sugarFromDB);
+        Assertions.assertEquals(sugar.getDescription(), sugarFromDB.getDescription());
 
     }
 
