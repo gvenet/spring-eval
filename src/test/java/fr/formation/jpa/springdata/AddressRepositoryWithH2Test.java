@@ -8,10 +8,8 @@ import fr.formation.jpa.springdata.repositories.CountryRepository;
 import fr.formation.jpa.springdata.repositories.TypeAddressRepository;
 import org.junit.jupiter.api.Assertions;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
